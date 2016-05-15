@@ -372,16 +372,18 @@ formatDocComment :: String -> Box
 formatDocComment docs =
     case lines docs of
         [] ->
-            line $ row [ punc "{-|", space, punc "-}" ]
-        (first:[]) ->
-            stack1
-                [ line $ row [ punc "{-|", space, literal first ]
-                , line $ punc "-}"
-                ]
-        (first:rest) ->
-            (line $ row [ punc "{-|", space, literal first ])
-                |> andThen (map (line . literal) rest)
-                |> andThen [ line $ punc "-}" ]
+            line $ row [ punc "-- |" ]
+
+        (first : []) ->
+            each first
+
+        (first : rest) ->
+            (each first)
+                |> andThen (map each rest)
+
+    where
+        each l =
+            line $ row [ punc "-- |", space, literal l ]
 
 
 formatName :: MN.Raw -> Line
