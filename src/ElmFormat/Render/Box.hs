@@ -638,7 +638,7 @@ formatDeclaration decl =
                                 SingleLine nameWithArgs' ->
                                   stack1
                                     [ line $ row
-                                        [ keyword "type"
+                                        [ keyword "data"
                                         , space
                                         , nameWithArgs'
                                         ]
@@ -649,7 +649,7 @@ formatDeclaration decl =
                                     ]
                                 nameWithArgs' ->
                                   stack1
-                                    [ line $ keyword "type"
+                                    [ line $ keyword "data"
                                     , indent $ nameWithArgs'
                                     , first
                                         |> prefix (row [punc "=", space])
