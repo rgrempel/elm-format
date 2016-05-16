@@ -660,9 +660,9 @@ formatDeclaration decl =
                 AST.Declaration.TypeAlias preAlias nameWithArgs typ ->
                   ElmStructure.definition "=" True
                     (line $ keyword "type")
-                    [ formatHeadCommented (line . keyword) (preAlias, "alias")
-                    , formatCommented formatNameWithArgs nameWithArgs
-                    ]
+                    ( map formatComment preAlias ++
+                      [ formatCommented formatNameWithArgs nameWithArgs ]
+                    )
                     (formatHeadCommentedStack formatType typ)
 
                 AST.Declaration.PortAnnotation name typeComments typ ->
