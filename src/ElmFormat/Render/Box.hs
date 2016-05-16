@@ -287,7 +287,7 @@ formatModuleLine_0_17 header =
         |> Maybe.fromMaybe []
 
     exposingClause =
-      formatKeywordCommented "exposing" exports $ AST.Module.exports header
+      formatKeywordCommentedWithoutKeyword exports $ AST.Module.exports header
 
     nameClause =
       case
@@ -1183,6 +1183,11 @@ formatKeywordCommented word format (KeywordCommented pre post value) =
   ElmStructure.spaceSepOrIndented
     (formatCommented (line . keyword) (Commented pre word post))
     [ format value ]
+
+
+formatKeywordCommentedWithoutKeyword :: (a -> Box) -> KeywordCommented a -> Box
+formatKeywordCommentedWithoutKeyword format (KeywordCommented _ _ value) =
+    format value
 
 
 formatComment :: Comment -> Box
