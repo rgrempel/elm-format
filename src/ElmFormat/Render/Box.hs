@@ -730,7 +730,7 @@ formatDefinition name args comments expr =
 
 formatTypeAnnotation :: (AST.Variable.Ref, Comments) -> (Comments, Type) -> Box
 formatTypeAnnotation name typ =
-  ElmStructure.definition ":" False
+  ElmStructure.definition "::" False
     (formatTailCommented (line . formatVar) name)
     []
     (formatHeadCommented formatType typ)
@@ -1406,7 +1406,7 @@ formatType' requireParens atype =
           formatUnit '{' '}' comments
 
         RecordType fields multiline ->
-          ElmStructure.group True "{" "," "}" multiline (map (formatRecordPair ":" formatType) fields)
+          ElmStructure.group True "{" "," "}" multiline (map (formatRecordPair "::" formatType) fields)
 
         RecordExtensionType _ [] _ ->
           pleaseReport "INVALID RECORD TYPE EXTENSION" "no fields"
@@ -1415,8 +1415,8 @@ formatType' requireParens atype =
           ElmStructure.extensionGroup
             multiline
             (formatCommented (line . identifier) ext)
-            (formatRecordPair ":" formatType first)
-            (map (formatRecordPair ":" formatType) rest)
+            (formatRecordPair "::" formatType first)
+            (map (formatRecordPair "::" formatType) rest)
 
 
 formatVar :: AST.Variable.Ref -> Line
