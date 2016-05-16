@@ -197,7 +197,7 @@ formatModuleHeader elmVersion modu =
       mapIf fn m a =
           case m of
               Just x ->
-                  fn x a
+                  fn a x
               Nothing ->
                   a
   in
