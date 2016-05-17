@@ -1081,7 +1081,7 @@ formatExpression aexpr =
             (map (formatRecordPair "=" formatExpression) rest)
 
         AST.Expression.Record pairs' multiline ->
-          ElmStructure.group True "{" "," "}" multiline $ map (formatRecordPair "=" formatExpression) pairs'
+          ElmStructure.group True "{" "," "}" multiline $ map (formatRecordPair ":" formatExpression) pairs'
 
         AST.Expression.EmptyRecord [] ->
             line $ punc "{}"
