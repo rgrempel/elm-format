@@ -310,7 +310,7 @@ formatModuleLine_0_17 header =
   in
     ElmStructure.spaceSepOrIndented
       nameClause
-      (whereClause ++ [exposingClause])
+      (whereClause ++ [exposingClause] ++ [line $ row [keyword "where"]])
 
 
 formatModule :: ElmVersion -> AST.Module.Module -> Box
