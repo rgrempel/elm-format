@@ -391,14 +391,52 @@ formatName name =
     identifier (List.intercalate "." name)
 
 
+prefixWithElm :: [MN.Raw]
+prefixWithElm =
+    [ ["Array"]
+    , ["Basics"]
+    , ["Bitwise"]
+    , ["Char"]
+    , ["Date"]
+    , ["Debug"]
+    , ["Dict"]
+    , ["Json", "Decode"]
+    , ["Json", "Encode"]
+    , ["List"]
+    , ["Maybe"]
+    , ["Random"]
+    , ["Regex"]
+    , ["Result"]
+    , ["Set"]
+    , ["String"]
+    , ["Trampoline"]
+    , ["Graphics", "Collage"]
+    , ["Graphics", "Element"]
+    , ["Color"]
+    , ["Keyboard"]
+    , ["Mouse"]
+    , ["Signal"]
+    , ["Task"]
+    , ["Text"]
+    , ["Time"]
+    , ["Transform2D"]
+    , ["Window"]
+    ]
+
+
+shouldPrefixWithElm :: MN.Raw -> Bool
+shouldPrefixWithElm raw =
+    List.elem raw prefixWithElm
+
+
 formatImport :: AST.Module.UserImport -> Box
 formatImport aimport =
     case aimport of
         AST.Module.UserImport aimport' ->
             case RA.drop aimport' of
-                (name,method) ->
+                (elmName,method) ->
                     let
-                        as =
+                        elmAs =
                           (AST.Module.alias method)
                             |> fmap (formatImportClause
                             (Just . line . identifier)
@@ -443,6 +481,10 @@ formatImport aimport =
 
                             _ ->
                               Just $ pleaseReport "UNEXPECTED IMPORT" "import clause comments with no clause"
+
+                        (name, as) =
+                            (elmName, elmAs)
+                            
                     in
                         case
                           ( formatHeadCommented (line . formatName) name
